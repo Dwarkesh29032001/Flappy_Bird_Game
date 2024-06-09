@@ -29,7 +29,7 @@ let topPipeImg ;
 let bottomPipeImg  ;
 
 // game physics
-let velocityX =  -2 ;  // pipes are moving towards left side in the Gamee
+let velocityX =  -2  ;  // pipes are moving towards left side in the Gamee
 let velocityY = 0 ;  // for flappy bird jumping speed
 let gravity = 0.4 ;  // due to gravity bird goes downwards ;
 
@@ -73,8 +73,6 @@ bottomPipeImg.src = "./bottompipe.png" ;
     requestAnimationFrame(update);
     setInterval(placePipes , 1500);  // every 1.5 sec 
     document.addEventListener("keydown" , moveBird) ;
-
-
 };
 
 
