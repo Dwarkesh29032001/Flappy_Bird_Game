@@ -37,6 +37,8 @@ let gameOver = false ;
 
 let score  = 0 ;
 
+let backgroundMusic ;
+
 window.onload = function() {
     board = document.getElementById("board");
     board.height = boardHeight;
@@ -47,7 +49,14 @@ window.onload = function() {
     // context.fillStyle = "green";
     // context.fillRect(bird.x, bird.y, bird.width, bird.height);
 
-    //load image 
+
+    //load image and Play Background Music 
+
+    // let backgroundMusic = document.getElementById("background-music");
+    // backgroundMusic.play(); 
+    
+    playBackgroundMusic();
+
     birdImg = new Image() ;
     birdImg.src = "./flappybird.png" ;
     birdImg.onload = function() {
@@ -83,6 +92,8 @@ function update() {
 
     if(bird.y > board.height){
         gameOver = true ;
+        playGameOverSound();
+        backgroundMusic.pause();
     }
 
 
@@ -98,10 +109,15 @@ function update() {
                     score += 0.5;  // 0.5 beacause there are two pipes in the single vertical line  
 
                     pipe.passed = true ;
+                    playScoreIncreaseSound();  // play score increase sound
                 }
             
             if(detectCollision(bird , pipe)){
                 gameOver = true ;
+                playCollisionSound();  // play collision sound on collision
+                playGameOverSound();
+                backgroundMusic.pause();
+
             }
         }
 
@@ -114,7 +130,7 @@ function update() {
     //score 
     context.fillStyle = "white" ;
     context.font = "20px sans-serif" ;
-    context.fillText(score , 5 , 45 );
+    context.fillText("SCORE: " + score, 5, 25); // Display score at the top left corner
 
     if(gameOver){
         context.fillText("GAME OVER ! PLAY AGAIN !" , 5 , 90) ;
@@ -168,6 +184,7 @@ if(e.code == "Space" || e.code == "ArrowUp"){
         pipeArray = [] ;
         score = 0 ; 
         gameOver = false ;
+        playBackgroundMusic(); 
     }
 }
 }
@@ -179,3 +196,27 @@ function detectCollision(a , b){
                 a.y + a.height > b.y ;
 
 }
+
+function playGameOverSound(){
+    let gameOverSound = document.getElementById("gameover-sound");
+    gameOverSound.play();
+}
+
+function playCollisionSound() {
+    let collisionSound = document.getElementById("collision-sound");
+    collisionSound.play();
+}
+
+
+function playScoreIncreaseSound() {
+    let scoreIncreaseSound = document.getElementById("score-increase-sound");
+    scoreIncreaseSound.play();
+}
+
+
+function playBackgroundMusic() {
+    backgroundMusic = document.getElementById("background-music");
+    backgroundMusic.currentTime = 0;  // restart music
+    backgroundMusic.play();
+}
+
